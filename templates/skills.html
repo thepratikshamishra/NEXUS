@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Skill gap analysis{% endblock %}
+{% block content %}
+<section class="page-heading"><div><div class="eyebrow">CAREER-ALIGNED CHECKLIST</div><h1>Your skill <em>landscape.</em></h1><p>Role: <strong>{{ role }}</strong>. Compare your profile with the local role dataset and track your progress.</p></div><a class="btn btn-secondary" href="{{ url_for('profile') }}">Update current skills</a></section>
+<div class="skill-summary-grid"><div class="summary-tile"><span>Skills listed for role</span><b>{{ required|length }}</b></div><div class="summary-tile"><span>Current skills matched</span><b>{{ required|length - gaps|length }}</b></div><div class="summary-tile"><span>Skills to explore</span><b>{{ gaps|length }}</b></div></div>
+<div class="content-two skills-columns">
+<section class="panel"><div class="section-title-row"><div><span class="panel-kicker">YOUR CURRENT SKILLS</span><h2>What you already listed</h2></div></div>{% if current %}<div class="tag-row">{% for skill in current %}<span class="tag tag-success">✓ {{ skill }}</span>{% endfor %}</div>{% else %}<p class="empty-state">Your current skills list is empty. Add skills to your profile to improve the comparison.</p>{% endif %}<div class="divider"></div><span class="panel-kicker">ROLE CHECKLIST</span><div class="skill-list">{% for skill in required %}<div class="skill-line"><span class="skill-dot {% if skill|lower in current|map('lower')|list %}dot-done{% endif %}"></span><span>{{ skill }}</span><span class="status-pill {% if skill|lower in current|map('lower')|list %}pill-done{% endif %}">{% if skill|lower in current|map('lower')|list %}In profile{% else %}To explore{% endif %}</span></div>{% endfor %}</div></section>
+<section class="panel"><span class="panel-kicker">TURN GAPS INTO ACTIONS</span><h2>Track a skill</h2><p class="muted">Choose a skill and save a status, confidence rating, and note. This is a personal tracker, not an automated assessment of mastery.</p>
+<form method="post" action="{{ url_for('update_skill_progress') }}" class="form-stack compact-form">
+<label>Skill<input name="skill" list="skill-options" placeholder="e.g. Statistics" required><datalist id="skill-options">{% for skill in required %}<option value="{{ skill }}">{% endfor %}</datalist></label>
+<label>Status<select name="status"><option>Planned</option><option>In progress</option><option>Completed</option></select></label>
+<label>Confidence (1–5)<select name="confidence">{% for i in range(1,6) %}<option value="{{ i }}">{{ i }}{% if i == 1 %} · New to this{% elif i == 5 %} · Confident{% endif %}</option>{% endfor %}</select></label>
+<label>Notes<textarea name="notes" rows="2" placeholder="What have you practised?"></textarea></label>
+<button class="btn btn-primary" type="submit">Save skill progress</button></form>
+<div class="divider"></div><h3>Saved progress</h3>{% if progress %}<div class="skill-list">{% for key, row in progress.items() %}<div class="skill-line"><div><b>{{ row.skill }}</b><small class="block muted">{{ row.notes or ('Confidence: ' ~ row.confidence ~ '/5') }}</small></div><span class="status-pill">{{ row.status }}</span></div>{% endfor %}</div>{% else %}<p class="muted">No skill progress entries yet.</p>{% endif %}
+</section></div>
+{% endblock %}

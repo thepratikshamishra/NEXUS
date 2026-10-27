@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}A clearer path to your next skill{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <div class="eyebrow"><span class="pulse"></span> YOUR PERSONAL LEARNING INTELLIGENCE</div>
+    <h1>Turn your career goal into a <em>clear next step.</em></h1>
+    <p class="hero-lede">NEXUS brings your target role, current skills, learning roadmap, and study time into one calm, practical workspace.</p>
+    <div class="hero-actions"><a class="btn btn-primary" href="{{ url_for('register') }}">Build my learning plan <span>↗</span></a><a class="btn btn-quiet" href="{{ url_for('about') }}">Explore the system</a></div>
+    <div class="trust-line"><span class="avatars">✦ ◈ ✳</span> Designed for students who want direction, not noise.</div>
+  </div>
+  <div class="hero-visual">
+    <div class="orb orb-one"></div><div class="orb orb-two"></div>
+    <div class="preview-window">
+      <div class="preview-head"><span class="window-dots">● ● ●</span><span>nexus / overview</span><span class="preview-live">● LIVE PREVIEW</span></div>
+      <div class="preview-body">
+        <div class="preview-greeting"><span>YOUR LEARNING SPACE</span><strong>Make progress visible.</strong></div>
+        <div class="preview-stats"><div><span>Target role</span><b>Data Scientist</b></div><div><span>Learning focus</span><b>Skill gaps</b></div></div>
+        <div class="mini-chart"><div class="chart-caption"><span>Learning allocation</span><span>Example plan</span></div><div class="bars"><i style="height:48%"></i><i style="height:78%"></i><i style="height:58%"></i><i style="height:92%"></i><i style="height:66%"></i><i style="height:82%"></i><i style="height:55%"></i><i style="height:100%"></i><i style="height:72%"></i></div></div>
+        <div class="preview-task"><span class="check">✓</span><div><b>Build a steady learning habit</b><small>Roadmap · Progress at your pace</small></div><span class="task-arrow">↗</span></div>
+      </div>
+    </div>
+    <div class="floating-note"><span class="note-icon">✧</span><div><b>Small steps add up.</b><small>One plan. Your direction.</small></div></div>
+  </div>
+</section>
+<section class="feature-section">
+  <div class="section-intro"><div class="eyebrow">THE NEXUS METHOD</div><h2>Less guessing.<br><em>More intentional learning.</em></h2><p>A practical system for turning a broad ambition into manageable actions.</p></div>
+  <div class="feature-grid">
+    <article class="feature-card"><span class="feature-number">01</span><div class="feature-icon lavender">◎</div><h3>Know your starting point</h3><p>Record your current skills and the career role you're working towards.</p></article>
+    <article class="feature-card"><span class="feature-number">02</span><div class="feature-icon peach">⌁</div><h3>See the missing pieces</h3><p>Compare your skills with a role-based checklist and choose a useful next step.</p></article>
+    <article class="feature-card"><span class="feature-number">03</span><div class="feature-icon mint">↗</div><h3>Make progress tangible</h3><p>Track study sessions, maintain a roadmap, and simulate different time plans.</p></article>
+  </div>
+</section>
+<section class="role-strip"><div><div class="eyebrow">START WITH A DIRECTION</div><h2>One goal. A plan you can revisit.</h2></div><div class="role-chips">{% for role in roles.keys() %}<span>{{ role }}</span>{% endfor %}</div></section>
+{% endblock %}

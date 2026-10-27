@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <div><div class="eyebrow">YOUR PERSONAL OVERVIEW</div><h1>Good to see you, <em>{{ profile.full_name or g.user.name }}.</em></h1><p>Keep your direction close and your next action small.</p></div>
+  <a class="btn btn-primary" href="{{ url_for('profile') }}">Edit learning profile <span>↗</span></a>
+</section>
+<div class="dashboard-grid">
+  <section class="panel profile-panel"><div class="panel-top"><div><span class="panel-kicker">CURRENT DIRECTION</span><h2>{{ profile.target_role }}</h2></div><span class="round-icon">◎</span></div><p class="muted">Your selected target role shapes the skill checklist and gap analysis.</p><div class="tag-row">{% for skill in current[:5] %}<span class="tag tag-soft">{{ skill }}</span>{% else %}<span class="muted">Add your current skills in your profile.</span>{% endfor %}</div><a class="text-link" href="{{ url_for('skills') }}">Review skill gaps <span>→</span></a></section>
+  <section class="metric-card"><span class="metric-label">STUDY TIME LOGGED</span><div class="metric-value">{{ (study_total // 60) }}<small>h</small> {{ study_total % 60 }}<small>m</small></div><p>Across {{ session_count }} study sessions</p><div class="metric-line"><span style="width:{{ [100, (study_total / 600 * 100)|int]|min }}%"></span></div><a href="{{ url_for('study_log') }}" class="text-link">Log study time →</a></section>
+  <section class="metric-card accent-metric"><span class="metric-label">ROADMAP COMPLETION</span><div class="metric-value">{{ done }}<small> / {{ roadmap_total }}</small></div><p>Tasks marked completed</p><div class="metric-line"><span style="width:{{ (done / roadmap_total * 100)|int if roadmap_total else 0 }}%"></span></div><a href="{{ url_for('roadmap') }}" class="text-link">Open roadmap →</a></section>
+</div>
+<div class="content-two">
+  <section class="panel"><div class="section-title-row"><div><span class="panel-kicker">YOUR NEXT FOCUS</span><h2>Skills to explore</h2></div><a class="text-link" href="{{ url_for('skills') }}">View all →</a></div>
+  {% if missing %}<div class="skill-list">{% for skill in missing[:6] %}<div class="skill-line"><span class="skill-dot"></span><span>{{ skill }}</span><span class="status-pill">Gap to explore</span></div>{% endfor %}</div>{% else %}<p class="empty-state">Your profile currently matches all skills listed for this role. Keep learning, and update the list as your skills grow.</p>{% endif %}
+  </section>
+  <section class="panel"><div class="section-title-row"><div><span class="panel-kicker">RECENT ACTIVITY</span><h2>Study log</h2></div><a class="text-link" href="{{ url_for('study_log') }}">See all →</a></div>
+  {% if recent %}<div class="activity-list">{% for item in recent %}<div class="activity-item"><span class="activity-date">{{ item.study_date[5:] }}</span><div><b>{{ item.topic }}</b><small>{{ item.notes or 'Study session' }}</small></div><span class="activity-time">{{ (item.minutes // 60) }}h {{ item.minutes % 60 }}m</span></div>{% endfor %}</div>{% else %}<p class="empty-state">Your first logged session can start here.</p><a class="btn btn-secondary" href="{{ url_for('study_log') }}">Add a study session</a>{% endif %}
+  </section>
+</div>
+<section class="sim-banner"><div class="sim-icon">✧</div><div><span class="panel-kicker">THINK A FEW MONTHS AHEAD</span><h2>What could your time add up to?</h2><p>Test a study routine and see how your hours could be allocated across learning areas.</p></div><a class="btn btn-light" href="{{ url_for('simulator') }}">Open what-if lab ↗</a></section>
+{% endblock %}

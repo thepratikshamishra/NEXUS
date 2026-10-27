@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}My learning profile{% endblock %}
+{% block content %}
+<section class="page-heading"><div><div class="eyebrow">YOUR STARTING POINT</div><h1>My learning <em>profile.</em></h1><p>Keep your target and current skills up to date. This drives your skill-gap checklist.</p></div></section>
+<div class="form-page panel">
+<form method="post" class="form-stack">
+<div class="form-grid"><label>Full name<input name="full_name" required value="{{ profile.full_name }}"></label><label>Target career role<select name="target_role" required>{% for role in roles.keys() %}<option value="{{ role }}" {% if profile.target_role == role %}selected{% endif %}>{{ role }}</option>{% endfor %}</select></label></div>
+<label>Current technical skills<textarea name="current_skills" rows="5" placeholder="Python, SQL, Pandas, Git">{{ profile.current_skills }}</textarea><small>Separate skills with commas. Use the role checklist's skill names where possible for accurate matching.</small></label>
+<label>Available study hours per week<input type="number" name="weekly_hours" min="1" max="100" step="0.5" required value="{{ profile.weekly_hours }}"></label>
+<div class="form-actions"><button class="btn btn-primary" type="submit">Save learning profile <span>↗</span></button><a class="btn btn-quiet" href="{{ url_for('dashboard') }}">Cancel</a></div>
+</form></div>
+{% endblock %}

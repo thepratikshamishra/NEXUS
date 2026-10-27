@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}What-if lab{% endblock %}
+{% block content %}
+<section class="page-heading"><div><div class="eyebrow">A SMALL PLANNING EXPERIMENT</div><h1>The what-if <em>lab.</em></h1><p>Try a hypothetical routine and estimate how your time could be distributed. This is arithmetic, not a promise about outcomes.</p></div></section>
+<div class="content-two simulator-layout">
+<section class="panel"><span class="panel-kicker">DESIGN A SCENARIO</span><h2>What would you like to test?</h2>
+<form method="post" class="form-stack compact-form">
+<div class="form-grid"><label>Study hours per day<input type="number" name="hours_per_day" min="0.25" max="16" step="0.25" value="{{ request.form.get('hours_per_day','2') }}" required></label><label>Days per week<input type="number" name="days_per_week" min="1" max="7" value="{{ request.form.get('days_per_week','5') }}" required></label></div>
+<label>Time horizon (months)<input type="number" name="months" min="1" max="36" value="{{ request.form.get('months','6') }}" required></label>
+<div class="divider"></div><div class="allocation-heading"><b>Allocate your time</b><small>Percentages must add to 100%</small></div>
+<div class="form-grid"><label>DSA (%)<input type="number" name="dsa_pct" min="0" max="100" value="{{ request.form.get('dsa_pct','30') }}" required></label><label>AI / ML (%)<input type="number" name="ai_pct" min="0" max="100" value="{{ request.form.get('ai_pct','40') }}" required></label><label>CS fundamentals (%)<input type="number" name="cs_pct" min="0" max="100" value="{{ request.form.get('cs_pct','20') }}" required></label><label>Projects (%)<input type="number" name="project_pct" min="0" max="100" value="{{ request.form.get('project_pct','10') }}" required></label></div>
+<p class="hint">Example: 30 + 40 + 20 + 10 = 100. Change the values to compare different strategies.</p>
+<button class="btn btn-primary" type="submit">Run this scenario <span>↗</span></button></form></section>
+<section class="panel result-panel"><span class="panel-kicker">YOUR SIMULATION</span><h2>Possible time investment</h2>
+{% if result %}
+<div class="result-total"><span>Estimated total study time</span><strong>{{ result.total_hours }} <small>hours</small></strong><small>Across about {{ result.total_weeks }} weeks</small></div>
+<div class="allocation-results">
+{% for label, val, pct, cls in [('DSA',result.dsa,result.percentages[0],'bar-lavender'),('AI / ML',result.ai,result.percentages[1],'bar-peach'),('CS fundamentals',result.cs,result.percentages[2],'bar-mint'),('Projects',result.projects,result.percentages[3],'bar-blue')] %}
+<div class="allocation-row"><div><b>{{ label }}</b><span>{{ pct }}%</span></div><div class="allocation-track"><i class="{{ cls }}" style="width:{{ pct }}%"></i></div><small>{{ val }} hours</small></div>
+{% endfor %}
+</div>
+<div class="insight-box"><b>For your {{ role }} goal</b><p>Your profile currently has {{ result.gaps|length }} role-skill gap(s) from the local checklist. Use this scenario to decide how you might distribute effort, then review it against your real schedule and energy.</p></div>
+{% else %}
+<div class="empty-large"><span>✧</span><h3>Your scenario will appear here.</h3><p>Try 2 hours a day, 5 days a week, for 6 months. Adjust the allocations to see the estimated total and category hours.</p></div>
+{% endif %}
+<div class="note-box">Important: the simulator does not predict skill mastery, grades, job offers, or hiring outcomes. Results depend on consistent practice, starting level, task quality, and many factors not modelled here.</div>
+</section></div>
+{% endblock %}

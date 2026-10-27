@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Create account{% endblock %}
+{% block content %}
+<div class="auth-layout"><div class="auth-aside"><div class="eyebrow">YOUR NEXT CHAPTER</div><h1>Build a path that feels <em>like yours.</em></h1><p>Start with a goal. Keep your learning steps in one place. Adjust as you grow.</p><div class="aside-quote">“Clarity comes from knowing your next step.”</div></div>
+<div class="auth-card"><div class="eyebrow">CREATE YOUR ACCOUNT</div><h2>Welcome to NEXUS</h2><p class="muted">A few details and you're ready to begin.</p>
+<form method="post" class="form-stack">
+<label>Full name<input name="name" autocomplete="name" required value="{{ request.form.get('name','') }}" placeholder="Your name"></label>
+<label>Email address<input type="email" name="email" autocomplete="email" required value="{{ request.form.get('email','') }}" placeholder="you@example.com"></label>
+<label>Password<input type="password" name="password" autocomplete="new-password" minlength="8" required placeholder="At least 8 characters"></label>
+<label>Confirm password<input type="password" name="confirm_password" autocomplete="new-password" minlength="8" required placeholder="Enter it again"></label>
+<button class="btn btn-primary full" type="submit">Create my workspace <span>↗</span></button>
+</form><p class="auth-switch">Already registered? <a href="{{ url_for('login') }}">Log in</a></p></div></div>
+{% endblock %}
